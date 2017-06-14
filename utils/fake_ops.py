@@ -17,7 +17,7 @@ def fake_cumprod(vb):
     """
     # real_cumprod = torch.cumprod(vb.data, 1)
     vb = vb.unsqueeze(0)
-    mul_mask_vb = Variable(torch.zeros(vb.size(2), vb.size(1), vb.size(2))).type_as(vb)
+    mul_mask_vb = Variable(torch.zeros(vb.size(2), vb.size(1), vb.size(2))).cuda()
     for i in range(vb.size(2)):
        mul_mask_vb[i, :, :i+1] = 1
     add_mask_vb = 1 - mul_mask_vb

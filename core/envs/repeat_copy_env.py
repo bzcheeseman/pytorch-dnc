@@ -7,6 +7,7 @@ import torch
 
 from core.env import Env
 
+
 class RepeatCopyEnv(Env):
     def __init__(self, args, env_ind=0):
         super(RepeatCopyEnv, self).__init__(args, env_ind)
@@ -85,7 +86,7 @@ class RepeatCopyEnv(Env):
         if input_ts.size(1) == 1:
             return input_ts
         else:
-            return input_ts.cpu() * self.unnormalize_input_ts.transpose(0, 1)
+            return input_ts.cpu() * self.unnormalize_ts.transpose(0, 1)
 
     def _generate_sequence(self):
         """
@@ -123,7 +124,7 @@ class RepeatCopyEnv(Env):
         self.exp_state1.append(np.zeros((self.batch_size, max_batch_num_words * (max_batch_repeats + 1) + 3, self.len_word + 2))) # input
         self.exp_state1.append(np.zeros((self.batch_size, max_batch_num_words * (max_batch_repeats + 1) + 3, self.len_word + 1))) # target
         self.exp_state1.append(np.zeros((self.batch_size, max_batch_num_words * (max_batch_repeats + 1) + 3, 1)))                 # mask
-        self.unnormalize_ts = torch.ones(self.batch_size, max_batch_num_words * (max_batch_repeats + 1) + 3, self.len_word + 2)
+        self.unnormalize_ts = torch.ones(self.batch_size, int(max_batch_num_words * (max_batch_repeats + 1) + 3), self.len_word + 2)
         for batch_ind in range(self.batch_size):
             num_words = batch_num_words[batch_ind]
             repeats   = batch_repeats[batch_ind]

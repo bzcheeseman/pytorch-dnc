@@ -9,7 +9,7 @@ opt = Options()
 np.random.seed(opt.seed)
 
 # 1. env     (prototype)
-env_prototype     = EnvDict[opt.env_type]
+env_prototype = EnvDict[opt.env_type]
 # 2. circuit (prototype)
 circuit_prototype = CircuitDict[opt.circuit_type]
 # 3. agent
@@ -19,5 +19,5 @@ agent = AgentDict[opt.agent_type](opt.agent_params,
 # 5. fit model
 if opt.mode == 1:   # train
     agent.fit_model()
-elif opt.mode == 2: # test opt.model_file
+elif opt.mode == 2:  # test opt.model_file
     agent.test_model()

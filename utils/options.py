@@ -16,16 +16,17 @@ CONFIGS = [
 [ "sl",       "repeat-copy", "",   "dnc"       ]   # 2
 ]
 
+
 class Params(object):   # NOTE: shared across all modules
     def __init__(self):
         self.verbose     = 0            # 0(warning) | 1(info) | 2(debug)
 
         # training signature
-        self.machine     = "daim"       # "machine_id"
-        self.timestamp   = "17053100"   # "yymmdd##"
+        self.machine     = "aman"       # "machine_id"
+        self.timestamp   = "170614"   # "yymmdd##"
         # training configuration
         self.mode        = 1            # 1(train) | 2(test model_file)
-        self.config      = 1 
+        self.config      = 2
 
         self.seed        = 123
         self.render      = False        # whether render the window from the original envs or not
@@ -45,7 +46,7 @@ class Params(object):   # NOTE: shared across all modules
         # NOTE: will save the current model to model_name
         self.model_name  = self.root_dir + "/models/" + self.refs + ".pth"
         # NOTE: will load pretrained model_file if not None
-        self.model_file  = None#self.root_dir + "/models/{TODO:FILL_IN_PRETAINED_MODEL_FILE}.pth"
+        self.model_file  = self.root_dir + "/models/" + self.refs + ".pth"
         if self.mode == 2:
             self.model_file  = self.model_name  # NOTE: so only need to change self.mode to 2 to test the current training
             assert self.model_file is not None, "Pre-Trained model is None, Testing aborted!!!"
@@ -60,6 +61,7 @@ class Params(object):   # NOTE: shared across all modules
             self.vis = visdom.Visdom()
             self.logger.warning("bash$: python -m visdom.server")           # activate visdom server on bash
             self.logger.warning("http://localhost:8097/env/" + self.refs)   # open this address on browser
+
 
 class EnvParams(Params):    # settings for network architecture
     def __init__(self):
@@ -78,6 +80,7 @@ class EnvParams(Params):    # settings for network architecture
             self.max_repeats   = 2
             self.max_repeats_norm = 10.
 
+
 class ControllerParams(Params):
     def __init__(self):
         super(ControllerParams, self).__init__()
@@ -90,6 +93,7 @@ class ControllerParams(Params):
         self.mem_hei        = None  # set after memory
         self.mem_wid        = None  # set after memory
 
+
 class HeadParams(Params):
     def __init__(self):
         super(HeadParams, self).__init__()
@@ -98,12 +102,15 @@ class HeadParams(Params):
         self.batch_size = None
         self.hidden_dim = None
         self.mem_hei = None
+        self.mem_banks = None
         self.mem_wid = None
         self.num_allowed_shifts = 3
+
 
 class WriteHeadParams(HeadParams):
     def __init__(self):
         super(WriteHeadParams, self).__init__()
+
 
 class ReadHeadParams(HeadParams):
     def __init__(self):
@@ -111,13 +118,16 @@ class ReadHeadParams(HeadParams):
         if self.circuit_type == "dnc":
             self.num_read_modes = None
 
+
 class MemoryParams(Params):
     def __init__(self):
         super(MemoryParams, self).__init__()
 
         self.batch_size = None
         self.mem_hei = None
+        self.mem_banks = None
         self.mem_wid = None
+
 
 class AccessorParams(Params):
     def __init__(self):
@@ -133,6 +143,7 @@ class AccessorParams(Params):
         self.write_head_params = WriteHeadParams()
         self.read_head_params  = ReadHeadParams()
         self.memory_params     = MemoryParams()
+
 
 class CircuitParams(Params):# settings for network architecture
     def __init__(self):
@@ -160,6 +171,7 @@ class CircuitParams(Params):# settings for network architecture
 
         self.controller_params = ControllerParams()
         self.accessor_params   = AccessorParams()
+
 
 class AgentParams(Params):  # hyperparameters for drl agents
     def __init__(self):
@@ -214,6 +226,7 @@ class AgentParams(Params):  # hyperparameters for drl agents
 
         self.env_params     = EnvParams()
         self.circuit_params = CircuitParams()
+
 
 class Options(Params):
     agent_params  = AgentParams()

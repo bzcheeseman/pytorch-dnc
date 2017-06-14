@@ -9,6 +9,7 @@ from torch.autograd import Variable
 from utils.fake_ops import fake_cumprod
 from core.heads.dynamic_head import DynamicHead
 
+
 class DynamicWriteHead(DynamicHead):
     def __init__(self, args):
         super(DynamicWriteHead, self).__init__(args)
@@ -73,7 +74,7 @@ class DynamicWriteHead(DynamicHead):
         prod_sorted_usage_vb = fake_cumprod(cat_sorted_usage_vb)
         # prod_sorted_usage_vb = torch.cumprod(cat_sorted_usage_vb, dim=1) # TODO: use this once the PR is ready
         alloc_weight_vb = (1 - sorted_usage_vb) * prod_sorted_usage_vb  # equ. (1)
-        _, indices_vb = torch.topk(indices_vb, k=self.mem_hei, dim=1, largest=False)
+        _, indices_vb = torch.topk(indices_vb.float(), k=self.mem_hei, dim=1, largest=False)
         alloc_weight_vb = alloc_weight_vb.gather(1, indices_vb)
         return alloc_weight_vb
 

@@ -9,6 +9,7 @@ from torch.autograd import Variable
 from core.head import Head
 from utils.similarities import batch_cosine_sim
 
+
 class DynamicHead(Head):
     def __init__(self, args):
         super(DynamicHead, self).__init__(args)
