@@ -6,6 +6,7 @@ import torch.optim as optim
 
 from utils.helpers import Experience
 
+
 class Agent(object):
     def __init__(self, args, env_prototype, circuit_prototype):
         # logging

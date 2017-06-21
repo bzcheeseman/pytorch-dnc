@@ -25,7 +25,7 @@ class Params(object):   # NOTE: shared across all modules
         self.machine     = "aman"       # "machine_id"
         self.timestamp   = "170614"   # "yymmdd##"
         # training configuration
-        self.mode        = 1            # 1(train) | 2(test model_file)
+        self.mode        = 2            # 1(train) | 2(test model_file)
         self.config      = 2
 
         self.seed        = 123
@@ -75,7 +75,7 @@ class EnvParams(Params):    # settings for network architecture
         elif self.env_type == "repeat-copy":
             self.len_word  = 4
             self.min_num_words = 1
-            self.max_num_words = 2
+            self.max_num_words = 3
             self.min_repeats   = 1
             self.max_repeats   = 2
             self.max_repeats_norm = 10.
@@ -138,6 +138,7 @@ class AccessorParams(Params):
         self.num_write_heads = None
         self.num_read_heads = None
         self.mem_hei = None
+        self.mem_banks = None
         self.mem_wid = None
         self.clip_value = None
         self.write_head_params = WriteHeadParams()
@@ -145,7 +146,7 @@ class AccessorParams(Params):
         self.memory_params     = MemoryParams()
 
 
-class CircuitParams(Params):# settings for network architecture
+class CircuitParams(Params):  # settings for network architecture
     def __init__(self):
         super(CircuitParams, self).__init__()
 
@@ -166,6 +167,7 @@ class CircuitParams(Params):# settings for network architecture
             self.num_write_heads = 1
             self.num_read_heads  = 4
             self.mem_hei         = 16
+            self.mem_banks       = 1
             self.mem_wid         = 16
             self.clip_value      = 20.   # clips controller and circuit output values to in between
 

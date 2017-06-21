@@ -7,6 +7,7 @@ import torch.nn.functional as F
 
 from core.controller import Controller
 
+
 class LSTMController(Controller):
     def __init__(self, args):
         super(LSTMController, self).__init__(args)
